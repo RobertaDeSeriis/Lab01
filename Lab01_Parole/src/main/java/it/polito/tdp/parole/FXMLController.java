@@ -13,7 +13,8 @@ import javafx.scene.control.TextField;
 public class FXMLController {
 	
 	Parole elenco ;
-
+	long start, end; //per calcolare il tempo che ci impiega quando clicchi sul bottone
+	
     @FXML
     private ResourceBundle resources;
 
@@ -34,14 +35,46 @@ public class FXMLController {
 
     @FXML
     void doInsert(ActionEvent event) {
-    	// TODO
+    	start= System.nanoTime(); 
+    	
+    	elenco.addParola(txtParola.getText());
+    	txtResult.setText(elenco.getElenco().toString());
+    	txtParola.clear();
+    	
+    	end= System.nanoTime(); 
+    	txtTempi.setText(""+ (end-start));
     }
 
     @FXML
     void doReset(ActionEvent event) {
-    	// TODO
+    	start= System.nanoTime(); 
+    	
+    	elenco.reset();
+    	txtResult.setText("");
+    	txtTempi.setText(""+System.nanoTime());
+    	
+    	end= System.nanoTime(); 
+    	txtTempi.setText(""+ (end-start));
     }
 
+    @FXML
+    void Cancella(ActionEvent event) {
+    	start= System.nanoTime(); 
+    	
+    	elenco.cancella(txtParola.getText());
+    	txtResult.setText(elenco.getElenco().toString());
+    	txtParola.setText("");
+    	txtTempi.setText(""+System.nanoTime());
+    	
+    	end= System.nanoTime(); 
+    	txtTempi.setText(""+ (end-start));
+    }
+    
+    @FXML // fx:id="txtTempi"
+    private TextArea txtTempi; 
+    
+    
+    
     @FXML
     void initialize() {
         assert txtParola != null : "fx:id=\"txtParola\" was not injected: check your FXML file 'Scene.fxml'.";
